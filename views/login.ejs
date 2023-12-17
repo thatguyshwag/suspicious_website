@@ -1,0 +1,14 @@
+<!-- login.ejs -->
+
+<%- include('./partials/header.ejs', { pageTitle: 'Registrar' }) %>
+  <h1>Login</h1>
+  <br> <a id="feiScream" href="/">Encarar a Tela do Menu</a><br><br>
+  <form action="/login" method="post">
+    <label for="name">Seu Nome Legal:</label> <br>
+    <input type="text" name="name" required><br>
+    <label for="password">Sua Senha Não Esquecida:</label> <br>
+    <input type="password" name="password" required><br>
+    <button type="submit">Login</button>
+  </form>
+</body>
+</html>

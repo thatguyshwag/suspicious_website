@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo do chute de numero</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function r2() {
+      window.location.href = "games"
+    }
+  </script>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    html {
+      font-family: sans-serif;
+    }
+
+    body {
+      width: 50%;
+      max-width: 800px;
+      min-width: 480px;
+      margin: 0 auto;
+    }
+
+    .form input[type="number"] {
+      width: 200px;
+    }
+
+    .lastResult {
+      color: white;
+      padding: 3px;
+    }
+  </style>
+</head>
+
+<body style="background-color:palevioletred" id="chuteBody">
+  <h1>Jogo de chutar o numero</h1>
+
+  <p>Nós duas escolhemos um numero entre 1 e 100. Veja se você consegue chutar qual numero nós escolhemos em 10 turnos
+    ou menos. A gente vai te dizer se você chutou alto de mais ou baixo de mais!!</p>
+  <button class="btn btn-secondary rounded-pill px-3" onclick='r2()'> Retornar </button>
+  <img id='bg' src='https://safebooru.org//samples/3218/sample_1d05aa2579f1a689ef618593480ef9271aa7bf3d.jpg?3346091'>
+  <div class="form">
+    <label for="guessField">Envie seu chute: </label>
+    <input type="number" min="1" max="100" required id="guessField" class="guessField">
+    <input type="submit" value="Submit guess" id="guessSubmit" class="btn btn-primary">
+  </div>
+
+  <div class="resultParas">
+    <p class="guesses"></p>
+    <p class="lastResult"></p>
+    <p class="lowOrHi"></p>
+  </div>
+
+  <script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    const guesses = document.querySelector('.guesses');
+    const lastResult = document.querySelector('.lastResult');
+    const lowOrHi = document.querySelector('.lowOrHi');
+    const guessSubmit = document.querySelector('#guessSubmit');
+    const guessField = document.querySelector('.guessField');
+    let guessCount = 1;
+    let resetButton;
+
+    function checkGuess() {
+      const userGuess = Number(guessField.value);
+      if (guessCount === 1) {
+        guesses.textContent = 'Chutes Previos: ';
+      }
+
+      guesses.textContent += userGuess + ' ';
+
+      if (userGuess === randomNumber) {
+        lastResult.textContent = 'Parabens! Voce chutou correto!';
+        lastResult.style.backgroundColor = 'green';
+        lowOrHi.textContent = '';
+        setGameOver();
+      } else if (guessCount === 10) {
+        lastResult.textContent = '!!!GAME OVER!!!';
+        lowOrHi.textContent = '';
+        setGameOver();
+      } else {
+        lastResult.textContent = 'Wrong!';
+        lastResult.style.backgroundColor = 'red';
+        if (userGuess < randomNumber) {
+          lowOrHi.textContent = 'Last guess was too low!';
+        } else if (userGuess > randomNumber) {
+          lowOrHi.textContent = 'Last guess was too high!';
+        }
+      }
+
+      guessCount++;
+      guessField.value = '';
+      guessField.focus();
+    }
+
+    guessSubmit.addEventListener('click', checkGuess);
+
+    function setGameOver() {
+      guessField.disabled = true;
+      guessSubmit.disabled = true;
+      resetButton = document.createElement('button');
+      resetButton.textContent = 'Começar jogo novo!';
+      document.body.appendChild(resetButton);
+      resetButton.addEventListener('click', resetGame);
+    }
+
+    function resetGame() {
+      guessCount = 1;
+      const resetParas = document.querySelectorAll('.resultParas p');
+      for (const resetPara of resetParas) {
+        resetPara.textContent = '';
+      }
+
+      resetButton.parentNode.removeChild(resetButton);
+
+      guessField.disabled = false;
+      guessSubmit.disabled = false;
+      guessField.value = '';
+      guessField.focus();
+      lastResult.style.background = 'none';
+      randomNumber = Math.floor(Math.random() * 100) + 1;
+    }
+  </script>
+  <img width='100%' src='https://media.tenor.com/7AclidYzB_MAAAAC/nobunaga-caramelldansen.gif'>
+  <p>COPYRIGHT LOLOLO CIRCA 2023</p>
+</body>
+
+</html>
